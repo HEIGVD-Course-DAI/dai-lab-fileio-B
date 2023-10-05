@@ -14,7 +14,6 @@ public class Main {
     private static final String NEW_NAME = "Gwenael Ansermoz";
     private static final String PROCESSED_FILE_EXTENSION = ".processed";
     private static final Charset PROCESSED_FILE_CHARSET = StandardCharsets.UTF_8;
-    private static final int NUM_WORDS_PER_LINE = 15;
 
     /**
      * Main method to transform files in a folder.
@@ -30,18 +29,19 @@ public class Main {
      * i.e., with a suffixe ".processed".
      */
     public static void main(String[] args) {
-        // Read the folder with files to transform from the command line
-        if (args.length != 1 || !new File(args[0]).isDirectory()) {
-            System.out.println("You need to provide an existing folder as command line argument.");
+        // Read command line arguments
+        if (args.length != 2 || !new File(args[0]).isDirectory()) {
+            System.out.println("You need to provide two command line arguments: an existing folder and the number of words per line.");
             System.exit(1);
         }
         String folder = args[0];
+        int wordsPerLine = Integer.parseInt(args[1]);
         System.out.println("Application started, reading folder " + folder + "...");
 
         FileExplorer fileExplorer = new FileExplorer(folder);
         FileReaderWriter fileReaderWriter = new FileReaderWriter();
         EncodingSelector encodingSelector = new EncodingSelector();
-        Transformer transformer = new Transformer(NEW_NAME, NUM_WORDS_PER_LINE);
+        Transformer transformer = new Transformer(NEW_NAME, wordsPerLine);
 
         File sourceFile;
         while ((sourceFile = fileExplorer.getNewFile()) != null) {
