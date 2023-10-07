@@ -23,8 +23,7 @@ public class Transformer {
      * @return the transformed string
      */
     public String replaceChuck(String source) {
-        // TODO: Implement the method body here.
-        return "";
+        return source.replaceAll("Chuck Norris", newName);
     }
 
     /**
@@ -33,8 +32,17 @@ public class Transformer {
      * @return the transformed string
      */
     public String capitalizeWords(String source) {
-        // TODO: Implement the method body here.
-        return "";
+
+        StringBuilder output = new StringBuilder();
+
+        String[] mots = source.split(" ");
+        // //s inclut tous les caractères d'espacement \n
+
+        for (String m: mots) {
+            output.append(m.substring(0, 1).toUpperCase()).append(m.substring(1)).append(" ");
+        }
+        // .trim(): Cette méthode supprime les espaces en début et en fin de chaîne.
+        return output.toString().trim();
     }
 
     /**
