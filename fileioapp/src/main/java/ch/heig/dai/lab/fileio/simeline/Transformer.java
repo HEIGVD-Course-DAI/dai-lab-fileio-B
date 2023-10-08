@@ -54,6 +54,30 @@ public class Transformer {
     public String wrapAndNumberLines(String source) {
         // TODO: Implement the method body here.
         // Use the StringBuilder class to build the result string.
-        return "";
+
+        StringBuilder output = new StringBuilder();
+        String[] mots = source.split("\\s");
+
+        int wordCount = 0;
+        int numberOfLine = 1;
+
+        for (String m : mots) {
+
+            if (wordCount++ == 0) {
+                output.append(numberOfLine).append(".");
+            }
+
+            if (wordCount != numWordsPerLine) {
+                output.append(" ").append(m);
+            }
+
+            else {
+                output.append(" ").append(m).append("\n");
+                wordCount = 0;
+                numberOfLine++;
+            }
+        }
+
+        return output.append("\n").toString();
     }
 }   
