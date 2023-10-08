@@ -41,11 +41,16 @@ public class Main {
         var fileExplorer = new FileExplorer(folder);
         var encodingSelector = new EncodingSelector();
         var fileReaderWriter = new FileReaderWriter();
+        var transformer = new Transformer(newName, wordsPerLine);
+
+        File inputFile;
 
         while (true) {
             try {
                 // TODO: loop over all files
-                File inputFile = fileExplorer.getNewFile();
+                inputFile = fileExplorer.getNewFile();
+
+                System.out.println("Starting to process file " + inputFile);
 
                 if (inputFile == null) {
                     System.out.println("No more files in the folder. Exiting...");
@@ -55,11 +60,14 @@ public class Main {
                 // Determine encoding
                 Charset encoding = encodingSelector.getEncoding(inputFile);
 
+                if (encoding == null) {
+                    throw new IllegalArgumentException("Unrecognized file extension detected");
+                }
+
                 // Read the file
                 String content = fileReaderWriter.readFile(inputFile, encoding);
 
                 // Transform the content
-                var transformer = new Transformer(newName, wordsPerLine);
 
                 content = transformer.replaceChuck(content);
                 // System.out.println(content);
