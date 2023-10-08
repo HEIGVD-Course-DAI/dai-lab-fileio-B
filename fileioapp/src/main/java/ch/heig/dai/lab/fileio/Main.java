@@ -1,7 +1,10 @@
 package ch.heig.dai.lab.fileio;
 
 import java.io.File;
+import java.nio.charset.Charset;
 
+// mvn clean install --> dans le fichier pom
+// java -jar target/fileioapp-1.0.jar jokes 5
 // *** TODO: Change this to import your own package ***
 import ch.heig.dai.lab.fileio.simeline.*;
 
@@ -35,14 +38,36 @@ public class Main {
         System.out.println("Application started, reading folder " + folder + "...");
         // TODO: implement the main method here
 
-        FileExplorer fileExplorer = new FileExplorer(folder);
-        EncodingSelector encodingSelector = new EncodingSelector();
-        FileReaderWriter fileReaderWriter = new FileReaderWriter();
-        // Transformer transformer = new Transformer();
+        var fileExplorer = new FileExplorer(folder);
+        var encodingSelector = new EncodingSelector();
+        var fileReaderWriter = new FileReaderWriter();
 
         while (true) {
             try {
                 // TODO: loop over all files
+                File inputFile = fileExplorer.getNewFile();
+
+                if (inputFile == null) {
+                    System.out.println("No more files in the folder. Exiting...");
+                    break;
+                }
+
+                // Determine encoding
+                Charset encoding = encodingSelector.getEncoding(inputFile);
+
+                // Read the file
+                String content = fileReaderWriter.readFile(inputFile, encoding);
+
+                // Transform the content
+                var transformer = new Transformer(newName, wordsPerLine);
+
+                content = transformer.replaceChuck(content);
+                // System.out.println(content);
+                content = transformer.capitalizeWords(content);
+                content = transformer.wrapAndNumberLines(content);
+
+                // Write the result
+                fileReaderWriter.writeFile(inputFile, content, encoding);
 
             } catch (Exception e) {
                 System.out.println("Exception: " + e);
