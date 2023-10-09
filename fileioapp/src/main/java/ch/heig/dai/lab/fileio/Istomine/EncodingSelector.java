@@ -3,8 +3,6 @@ package ch.heig.dai.lab.fileio.Istomine;
 import java.io.File;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.io.*;
 import java.util.*;
 
 public class EncodingSelector {
