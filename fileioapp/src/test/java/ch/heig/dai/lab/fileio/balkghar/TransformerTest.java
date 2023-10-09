@@ -31,7 +31,6 @@ public class TransformerTest {
     }
 
     @Test
-    @Disabled
     public void wrapAndNumberLines() {
         String expected = "1. Chuck Norris s’est\n2. fait flasher à\n3. 280km/h sur l’autoroute.\n4. A pied.\n";
         assertEquals(expected, transformer.wrapAndNumberLines(testString));
