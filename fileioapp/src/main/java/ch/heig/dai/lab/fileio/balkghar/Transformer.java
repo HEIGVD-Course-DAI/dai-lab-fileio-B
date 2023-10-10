@@ -32,13 +32,21 @@ public class Transformer {
      * @return the transformed string
      */
     public String capitalizeWords(String source) {
+
         String words[]=source.split("\\s");  
+
         String capitalizeWord="";
-        for(String word:words){  
+
+        for(String word:words){
+
             String first=word.substring(0,1);  
+
             String afterfirst=word.substring(1);  
+
             capitalizeWord+=first.toUpperCase()+afterfirst+" ";  
+
         }  
+
         return capitalizeWord.trim();
     }
 
@@ -49,9 +57,7 @@ public class Transformer {
      * @return the transformed string
      */
     public String wrapAndNumberLines(String source) {
-        // Use the StringBuilder class to build the result string.
         
-        // Use the StringBuilder class to build the result string.
         StringBuilder strTemp =  new StringBuilder();
 
         String words[]=source.split("\\s");
