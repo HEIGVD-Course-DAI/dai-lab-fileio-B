@@ -33,7 +33,7 @@ public class Main {
         }
         String folder = args[0];
         int wordsPerLine = Integer.parseInt(args[1]);
-        System.out.println("Application started, reading folder " + folder + "...");
+        System.out.println("Application started, reading folder " + folder);
         // TODO: implement the main method here
 
         FileExplorer fileExplorer = new FileExplorer(folder);
@@ -59,19 +59,20 @@ public class Main {
                 Objects.requireNonNull(currentCharset, "File extension unrecognised");
 
                 // Read file
-                String sourceFileContent = fileReaderWriter.readFile(currentFile, currentCharset);
-                Objects.requireNonNull(sourceFileContent, "Could not read file content");
+                String content = fileReaderWriter.readFile(currentFile, currentCharset);
+                Objects.requireNonNull(content, "Unable to read content");
 
                 // Transform content
-                sourceFileContent = transformer.replaceChuck(sourceFileContent);
-                sourceFileContent = transformer.capitalizeWords(sourceFileContent);
-                sourceFileContent = transformer.wrapAndNumberLines(sourceFileContent);
+                content = transformer.replaceChuck(content);
+                content = transformer.capitalizeWords(content);
+                content = transformer.wrapAndNumberLines(content);
 
                 // Write result to file
                 File result = new File(currentFile.getAbsolutePath() + ".processed");
-                if (fileReaderWriter.writeFile(result, sourceFileContent, StandardCharsets.UTF_8)) {
+                if (fileReaderWriter.writeFile(result, content, StandardCharsets.UTF_8)) {
                     throw new RuntimeException("Could not write to file");
                 }
+                System.out.println("File processed");
 
             } catch (Exception e) {
                 System.out.println("Exception: " + e);
