@@ -1,4 +1,3 @@
-// TODO change this to your own package instead of jehrensb ***
 package ch.heig.dai.lab.fileio.gitBugD;
 
 import org.junit.jupiter.api.Test;
