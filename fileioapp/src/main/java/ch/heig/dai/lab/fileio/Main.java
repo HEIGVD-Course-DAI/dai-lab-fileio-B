@@ -37,27 +37,17 @@ public class Main {
         FileReaderWriter fReadWrite = new FileReaderWriter();
         Transformer transf = new Transformer(newName, wordsPerLine);
 
-         String tmpString = new String();
-        File newFile;
+        File tmpFile;
 
         while (true) {
+            
             try {
 
-                File tmpFile = fExplore.getNewFile();
-
-                if(tmpFile != null){
-
-                    tmpString = fReadWrite.readFile(tmpFile, eSelector.getEncoding(tmpFile));
-
-                    tmpString = transf.replaceChuck(tmpString);
-
-                    newFile = new File(tmpFile.getParent(), tmpFile.getName() + ".processed");
-
-                    fReadWrite.writeFile(newFile, tmpString, Charset.forName("UTF-8"));
-                }
-                else{
+                if((tmpFile = fExplore.getNewFile()) != null)
+                    fReadWrite.writeFile(new File(tmpFile.getParent(), tmpFile.getName() + ".processed"), transf.replaceChuck(fReadWrite.readFile(tmpFile, eSelector.getEncoding(tmpFile))), Charset.forName("UTF-8"));
+                else
                     break;
-                }
+                
             } catch (Exception e) {
                 System.out.println("Exception: " + e);
             }
