@@ -44,6 +44,7 @@ public class Main {
         var transformer = new Transformer(newName, wordsPerLine);
 
         File inputFile;
+        File outputFile;
 
         while (true) {
             try {
@@ -68,14 +69,18 @@ public class Main {
                 String content = fileReaderWriter.readFile(inputFile, encoding);
 
                 // Transform the content
-
                 content = transformer.replaceChuck(content);
-                // System.out.println(content);
                 content = transformer.capitalizeWords(content);
                 content = transformer.wrapAndNumberLines(content);
 
+
+                // Create the output file with the new name
+                String outputFileName = inputFile.getName() + ".processed";
+                outputFile = new File(inputFile.getParent(), outputFileName);
+
+
                 // Write the result
-                fileReaderWriter.writeFile(inputFile, content, encoding);
+                fileReaderWriter.writeFile(outputFile, content, encoding);
 
             } catch (Exception e) {
                 System.out.println("Exception: " + e);
