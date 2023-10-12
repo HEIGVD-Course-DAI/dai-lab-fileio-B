@@ -15,20 +15,48 @@ public class FileReaderWriter {
         // TODO: Implement the method body here. 
         // Use the ...Stream and ...Reader classes from the java.io package.
         // Make sure to close the streams and readers at the end.
+
+        BufferedReader reader = null;
+        int count;
+        String content = "";
+        try {
+            reader = new BufferedReader(new FileReader(file, encoding));
+            while((count = reader.read()) != -1) {
+                content += reader.read();
+            }
+            reader.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return null;
     }
 
     /**
-     * Write the content to a file with a given encoding. 
+     * Write the content to a file with a given encoding.
      * @param file the file to write to
      * @param content the content to write
      * @param encoding the encoding to use
      * @return true if the file was written successfully, false otherwise
      */
     public boolean writeFile(File file, String content, Charset encoding) {
-        // TODO: Implement the method body here. 
+        // TODO: Implement the method body here.
         // Use the ...Stream and ...Reader classes from the java.io package.
         // Make sure to flush the data and close the streams and readers at the end.
+
+        BufferedWriter writer = null;
+        BufferedReader reader = null;
+        int count;
+        try {
+            reader = new BufferedReader(new FileReader(file,encoding));
+            while((count = reader.read()) != -1) {
+                writer.write(content);
+            }
+            writer.flush();
+            writer.close();
+            reader.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return false;
     }
 }
