@@ -37,6 +37,9 @@ public class Main {
         FileReaderWriter fReadWrite = new FileReaderWriter();
         Transformer transf = new Transformer(newName, wordsPerLine);
 
+         String tmpString = new String();
+        File newFile;
+
         while (true) {
             try {
 
@@ -44,13 +47,11 @@ public class Main {
 
                 if(tmpFile != null){
 
-                    Charset tmpCharset = eSelector.getEncoding(tmpFile);
-
-                    String tmpString = fReadWrite.readFile(tmpFile, tmpCharset);
+                    tmpString = fReadWrite.readFile(tmpFile, eSelector.getEncoding(tmpFile));
 
                     tmpString = transf.replaceChuck(tmpString);
 
-                    File newFile = new File(tmpFile.getParent(), tmpFile.getName() + ".processed");
+                    newFile = new File(tmpFile.getParent(), tmpFile.getName() + ".processed");
 
                     fReadWrite.writeFile(newFile, tmpString, Charset.forName("UTF-8"));
                 }
