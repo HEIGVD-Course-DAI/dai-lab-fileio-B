@@ -2,12 +2,10 @@ package ch.heig.dai.lab.fileio;
 
 import java.io.File;
 
-// *** TODO: Change this to import your own package ***
-import ch.heig.dai.lab.fileio.jehrensb.*;
+import ch.heig.dai.lab.fileio.AlessioGiuliano.*;
 
 public class Main {
-    // *** TODO: Change this to your own name ***
-    private static final String newName = "Jean-Claude Van Damme";
+    private static final String newName = "Alessio Giuliano";
 
     /**
      * Main method to transform files in a folder.
@@ -31,11 +29,33 @@ public class Main {
         String folder = args[0];
         int wordsPerLine = Integer.parseInt(args[1]);
         System.out.println("Application started, reading folder " + folder + "...");
-        // TODO: implement the main method here
+        var explorer = new FileExplorer(folder);
 
         while (true) {
             try {
-                // TODO: loop over all files
+                File file = explorer.getNewFile();
+                if (file == null)
+                {
+                    break;
+                }
+                var encodingSelector = new EncodingSelector();
+                var encoding = encodingSelector.getEncoding(file);
+
+                if (encoding == null)
+                {
+                    continue;
+                }
+
+                var readerWriter = new FileReaderWriter();
+                String content = readerWriter.readFile(file, encoding);
+
+                var transformer = new Transformer(newName, wordsPerLine);
+                content = transformer.replaceChuck(content);
+                content = transformer.wrapAndNumberLines(content);
+                content = transformer.capitalizeWords(content);
+
+                var outputFile = new File(file.getPath() + ".processed");
+                readerWriter.writeFile(outputFile, content, encoding);
 
             } catch (Exception e) {
                 System.out.println("Exception: " + e);
