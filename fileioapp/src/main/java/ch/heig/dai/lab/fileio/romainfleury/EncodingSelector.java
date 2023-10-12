@@ -1,7 +1,9 @@
 package ch.heig.dai.lab.fileio.romainfleury;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.nio.charset.Charset;
+import java.util.Arrays;
 
 public class EncodingSelector {
 
@@ -18,6 +20,20 @@ public class EncodingSelector {
      */
     public Charset getEncoding(File file) {
         // TODO: implement the method body here
+        String[] extName = {"utf8", "txt", "utf16be", "utf16le"};
+        String[] charsetName = {"UTF-8", "US-ASCII", "UTF-16BE", "UTF-16LE"};
+
+        String filename = file.getName();
+
+        int index = filename.lastIndexOf('.');
+        if(index > 0){
+            String extension = filename.substring(index+1);
+            index = Arrays.asList(extName).indexOf(extension);
+            if(index != -1){
+                return Charset.forName(charsetName[index]);
+            }
+        }
+
         return null;
     }
 }
