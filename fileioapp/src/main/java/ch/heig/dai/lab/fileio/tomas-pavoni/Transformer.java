@@ -1,4 +1,4 @@
-package ch.heig.dai.lab.fileio.tomaspavoni;
+package ch.heig.dai.lab.fileio.tomas-pavoni;
 
 public class Transformer {
 
