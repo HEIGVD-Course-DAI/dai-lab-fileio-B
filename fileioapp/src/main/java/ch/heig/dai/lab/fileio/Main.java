@@ -1,13 +1,16 @@
 package ch.heig.dai.lab.fileio;
 
 import java.io.File;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 // *** TODO: Change this to import your own package ***
-import ch.heig.dai.lab.fileio.jehrensb.*;
+import ch.heig.dai.lab.fileio.LeoR.*;
 
 public class Main {
     // *** TODO: Change this to your own name ***
-    private static final String newName = "Jean-Claude Van Damme";
+    private static final String NEW_NAME = "Léo Rinsoz";
+    private static final Charset ENCODING = StandardCharsets.UTF_8;
 
     /**
      * Main method to transform files in a folder.
@@ -33,11 +36,41 @@ public class Main {
         System.out.println("Application started, reading folder " + folder + "...");
         // TODO: implement the main method here
 
-        while (true) {
-            try {
-                // TODO: loop over all files
+        // Creating the objects
+        FileExplorer fileExplorer = new FileExplorer(folder);
+        EncodingSelector encodingSelector = new EncodingSelector();
+        FileReaderWriter fileReaderWriter = new FileReaderWriter();
+        Transformer transformer = new Transformer(NEW_NAME, wordsPerLine);
 
-            } catch (Exception e) {
+        while (true)
+        {
+            try
+            {
+                // TODO: loop over all files
+                File file = fileExplorer.getNewFile();
+                if (file != null)
+                {
+                    // Getting the file's encoding
+                    Charset encoding = encodingSelector.getEncoding(file);
+
+                    // Transforming the file
+                    String content = fileReaderWriter.readFile(file, encoding);
+                    content = transformer.replaceChuck(content);
+                    content = transformer.capitalizeWords(content);
+                    content = transformer.wrapAndNumberLines(content);
+
+                    // Creating the processed files
+                    String resultFileName = file.getName() + ".processed";
+                    fileReaderWriter.writeFile(new File(file.getParentFile(), resultFileName), content, ENCODING);
+                }
+                else
+                {
+                    // No more files, break the loop
+                    break;
+                }
+            }
+            catch (Exception e)
+            {
                 System.out.println("Exception: " + e);
             }
         }
