@@ -22,10 +22,7 @@ public class Transformer {
      * @param source the string to transform
      * @return the transformed string
      */
-    public String replaceChuck(String source) {
-        // TODO: Implement the method body here.
-        return "";
-    }
+    public String replaceChuck(String source) { return source.replace("Chuck Norris", newName); }
 
     /**
      * Capitalize the first letter of each word in the string.
@@ -33,8 +30,16 @@ public class Transformer {
      * @return the transformed string
      */
     public String capitalizeWords(String source) {
-        // TODO: Implement the method body here.
-        return "";
+        StringBuilder result = new StringBuilder();
+        String[] words = source.split(" ");
+        for (int i = 0; i < words.length; i++) {
+            String word = words[i];
+            result.append(word.substring(0, 1).toUpperCase() + word.substring(1));
+            if (i != words.length - 1) {
+                result.append(" ");
+            }
+        }
+        return result.toString();
     }
 
     /**
@@ -44,8 +49,21 @@ public class Transformer {
      * @return the transformed string
      */
     public String wrapAndNumberLines(String source) {
-        // TODO: Implement the method body here.
-        // Use the StringBuilder class to build the result string.
-        return "";
+        StringBuilder result = new StringBuilder();
+        String[] words = source.split(" ");
+
+        int nbWord = 0;
+        int nbLine = 1;
+
+        while (nbWord < words.length) {
+            result.append(nbLine++ + ".");
+            for (int i = 0; i < numWordsPerLine && nbWord < words.length; i++, nbWord++) {
+                result.append(" ");
+                result.append(words[nbWord]);
+            }
+            result.append("\n");
+        }
+
+        return result.toString();
     }
-}   
+}
