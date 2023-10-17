@@ -1,13 +1,14 @@
 package ch.heig.dai.lab.fileio;
 
 import java.io.File;
+import java.nio.charset.Charset;
 
 // *** TODO: Change this to import your own package ***
-import ch.heig.dai.lab.fileio.jehrensb.*;
+import ch.heig.dai.lab.fileio.romainfleury.*;
 
 public class Main {
     // *** TODO: Change this to your own name ***
-    private static final String newName = "Jean-Claude Van Damme";
+    private static final String newName = "Romain Fleury";
 
     /**
      * Main method to transform files in a folder.
@@ -32,10 +33,25 @@ public class Main {
         int wordsPerLine = Integer.parseInt(args[1]);
         System.out.println("Application started, reading folder " + folder + "...");
         // TODO: implement the main method here
+        FileExplorer fe = new FileExplorer(args[1]);
+        EncodingSelector es = new EncodingSelector();
+        Transformer t = new Transformer(newName, 3);
+        FileReaderWriter frw = new FileReaderWriter();
 
         while (true) {
             try {
                 // TODO: loop over all files
+                File f = fe.getNewFile();
+                Charset encoding = es.getEncoding(f);
+                String newText = frw.readFile(f, encoding);
+                newText = t.replaceChuck(newText);
+                newText = t.capitalizeWords(newText);
+                newText = t.wrapAndNumberLines(newText);
+
+                File fw = new File(f.getName() + ".processed");
+
+                frw.writeFile(fw, newText, Charset.forName("UTF-8"));
+
 
             } catch (Exception e) {
                 System.out.println("Exception: " + e);
