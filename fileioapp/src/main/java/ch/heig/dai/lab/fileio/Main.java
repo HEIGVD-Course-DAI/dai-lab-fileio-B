@@ -1,13 +1,13 @@
 package ch.heig.dai.lab.fileio;
 
 import java.io.File;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
-// *** TODO: Change this to import your own package ***
-import ch.heig.dai.lab.fileio.jehrensb.*;
+import ch.heig.dai.lab.fileio.kalysso.*;
 
 public class Main {
-    // *** TODO: Change this to your own name ***
-    private static final String newName = "Jean-Claude Van Damme";
+    private static final String newName = "Kalysso";
 
     /**
      * Main method to transform files in a folder.
@@ -31,12 +31,51 @@ public class Main {
         String folder = args[0];
         int wordsPerLine = Integer.parseInt(args[1]);
         System.out.println("Application started, reading folder " + folder + "...");
-        // TODO: implement the main method here
+
+        FileExplorer fileExplorer = new FileExplorer(folder);
+        EncodingSelector encodingSelector = new EncodingSelector();
+        FileReaderWriter fileReaderWriter = new FileReaderWriter();
+        Transformer transformer = new Transformer(newName, wordsPerLine);
+
+
 
         while (true) {
             try {
-                // TODO: loop over all files
+                // Get the file
+                File file = fileExplorer.getNewFile();
+                if(null == file)
+                {
+                    System.out.println("No more files. End of processing.");
+                    break;
+                }
 
+                String filename = file.getName();
+
+                // Detect the encoding
+                Charset encoding = encodingSelector.getEncoding(file);
+                if(null == encoding)
+                {
+                    System.out.println("Unable to detect encoding of file '" + filename + "'.");
+                    continue;
+                }
+
+                // Read the file
+                String fileContent = fileReaderWriter.readFile(file, encoding);
+                if(null == fileContent)
+                {
+                    System.out.println("Unable to read the content of file '" + filename + "'.");
+                    continue;
+                }
+
+                System.out.println("Transforming file '" + filename + "'");
+
+                // Transform the file content
+                fileContent = transformer.replaceChuck(fileContent);
+                fileContent = transformer.capitalizeWords(fileContent);
+                fileContent = transformer.wrapAndNumberLines(fileContent);
+
+                // Write it back in the source folder, with the new encoding
+                fileReaderWriter.writeFile(new File(file.getParent(), filename + ".processed"), fileContent, StandardCharsets.UTF_8);
             } catch (Exception e) {
                 System.out.println("Exception: " + e);
             }
