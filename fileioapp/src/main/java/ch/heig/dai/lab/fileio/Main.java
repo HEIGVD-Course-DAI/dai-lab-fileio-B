@@ -3,7 +3,6 @@ package ch.heig.dai.lab.fileio;
 import java.io.File;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.Objects;
 
 import ch.heig.dai.lab.fileio.maximesch.*;
 
@@ -32,28 +31,45 @@ public class Main {
         String folder = args[0];
         int wordsPerLine = Integer.parseInt(args[1]);
         System.out.println("Application started, reading folder " + folder + "...");
-        // TODO: implement the main method here
 
+        //Setup the four objects we will use to process the files
         EncodingSelector encodingSelector = new EncodingSelector();
         FileExplorer fileExplorer = new FileExplorer(folder);
-
         FileReaderWriter fileReaderWriter = new FileReaderWriter();
         Transformer transformer = new Transformer("Maxime Schaller", wordsPerLine);
 
         File sourceFile;
 
-
-        while (fileExplorer.getNewFile() != null) {
+        while (true) {
             try {
                 sourceFile = fileExplorer.getNewFile();
-                String sourceFilePath = sourceFile.getAbsolutePath();
-                // TODO: loop over all files
+                if(sourceFile == null){
+                    System.out.println("No more file to parse.");
+                    break;
+                }
+
+                String fileName = sourceFile.getName();
+
+                Charset encoding = encodingSelector.getEncoding(sourceFile);
+                if(encoding == null){
+                    continue;
+                }
+                String currFileContent = fileReaderWriter.readFile(sourceFile, encoding);
+                if(currFileContent == null){
+                    continue;
+                }
+
+                currFileContent = transformer.replaceChuck(currFileContent);
+                currFileContent = transformer.capitalizeWords(currFileContent);
+                currFileContent = transformer.wrapAndNumberLines(currFileContent);
+
+                fileReaderWriter.writeFile(new File(sourceFile.getParent(), fileName + ".processed"),
+                        currFileContent, StandardCharsets.UTF_8);
 
             } catch (Exception e) {
                 System.out.println("Exception: " + e);
             }
         }
-
-        System.out.println("Application ended, read ");
+        System.out.println("Operation completed.");
     }
 }
