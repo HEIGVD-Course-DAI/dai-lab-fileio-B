@@ -1,9 +1,12 @@
 package ch.heig.dai.lab.fileio.amango;
 
+import java.util.StringTokenizer;
+
 public class Transformer {
 
     private final String newName;
     private final int numWordsPerLine;
+    private static final String NAME_TO_REPLACE = "Chuck Norris";
 
     /**
      * Constructor
@@ -23,8 +26,7 @@ public class Transformer {
      * @return the transformed string
      */
     public String replaceChuck(String source) {
-        // TODO: Implement the method body here.
-        return "";
+        return source.replace(NAME_TO_REPLACE, newName);
     }
 
     /**
@@ -33,8 +35,11 @@ public class Transformer {
      * @return the transformed string
      */
     public String capitalizeWords(String source) {
-        // TODO: Implement the method body here.
-        return "";
+        StringBuilder result = new StringBuilder();
+        for (var word : source.split(" ")) {
+            result.append(word.substring(0, 1).toUpperCase()).append(word.substring(1)).append(" ");
+        }
+        return result.toString().trim();
     }
 
     /**
@@ -44,8 +49,20 @@ public class Transformer {
      * @return the transformed string
      */
     public String wrapAndNumberLines(String source) {
-        // TODO: Implement the method body here.
-        // Use the StringBuilder class to build the result string.
-        return "";
+        StringTokenizer tokenizer = new StringTokenizer(source, " ");
+        StringBuilder result = new StringBuilder();
+        int lineIndex = 1;
+
+        while (tokenizer.hasMoreElements()) {
+            result.append(lineIndex++).append(". ");        // Append the line number.
+            for (int i = 0; i < numWordsPerLine; i++) {     // Add numWordsPerLine tokens.
+                if (tokenizer.hasMoreElements())
+                    result.append(tokenizer.nextToken()).append(" ");
+            }
+            // Replace the last space with a system-dependant newline.
+            result.replace(result.length() - 1, result.length(), System.lineSeparator());
+        }
+
+        return result.toString();
     }
 }   

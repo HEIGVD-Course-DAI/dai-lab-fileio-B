@@ -16,8 +16,9 @@ public class FileReaderWriter {
             StringBuilder content = new StringBuilder();
             String line;
             while((line = reader.readLine()) != null) {
-                content.append(line).append("\n");
+                content.append(line).append(System.lineSeparator());
             }
+            content.deleteCharAt(content.length() - 1);
             return content.toString();
         } catch (IOException e) {
             System.out.println("Error while reading file: " + e.getMessage());
