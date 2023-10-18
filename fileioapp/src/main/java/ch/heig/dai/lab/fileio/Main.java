@@ -1,14 +1,17 @@
 package ch.heig.dai.lab.fileio;
 
 import java.io.File;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
-// *** TODO: Change this to import your own package ***
-import ch.heig.dai.lab.fileio.jehrensb.*;
+
+import ch.heig.dai.lab.fileio.dariovas.*;
 
 public class Main {
-    // *** TODO: Change this to your own name ***
-    private static final String newName = "Jean-Claude Van Damme";
-
+    private static final String newName = "Dario Vasques";
+    private static final Charset OUTPUT_CHARSET = StandardCharsets.UTF_8;
+    private static final String SUFFIXE = ".processed";
     /**
      * Main method to transform files in a folder.
      * Create the necessary objects (FileExplorer, EncodingSelector, FileReaderWriter, Transformer).
@@ -31,11 +34,45 @@ public class Main {
         String folder = args[0];
         int wordsPerLine = Integer.parseInt(args[1]);
         System.out.println("Application started, reading folder " + folder + "...");
-        // TODO: implement the main method here
 
-        while (true) {
+        EncodingSelector encoding = new EncodingSelector();
+        FileReaderWriter fileReaderWriter = new FileReaderWriter();
+        FileExplorer file = new FileExplorer(folder);
+        Transformer transformer = new Transformer(newName, wordsPerLine);
+
+        File srcFile;
+
+        while ((srcFile = file.getNewFile()) != null) {
             try {
-                // TODO: loop over all files
+                if(srcFile.getName().endsWith(SUFFIXE)){
+                    System.out.println("Already processed");
+                    continue;
+                }
+
+                System.out.println("Starting to process file " + srcFile);
+
+                // Gets source file charset
+                Charset srcFileCharset = encoding.getEncoding(srcFile);
+                Objects.requireNonNull(srcFileCharset, "File extension unrecognised");
+
+                // Reads file content
+                String content = fileReaderWriter.readFile(srcFile, srcFileCharset);
+                Objects.requireNonNull(content, "Unable to read content");
+
+                // Modify file content
+                content = transformer.replaceChuck(content);
+                content = transformer.capitalizeWords(content);
+                content = transformer.wrapAndNumberLines(content);
+
+                // Creates the result file
+                File result = new File(srcFile.getAbsolutePath() + SUFFIXE);
+
+                // Writes the result file
+                if(!fileReaderWriter.writeFile(result, content, OUTPUT_CHARSET)){
+                    throw new RuntimeException("Could not write to file");
+                }
+
+                System.out.println("File processed");
 
             } catch (Exception e) {
                 System.out.println("Exception: " + e);
