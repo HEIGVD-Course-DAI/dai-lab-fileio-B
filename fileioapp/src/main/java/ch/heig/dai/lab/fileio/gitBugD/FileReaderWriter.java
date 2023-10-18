@@ -25,7 +25,7 @@ public class FileReaderWriter {
             }
 
             reader.close();
-
+            return contentBuilder.toString();
         }catch(Exception ex){
             ex.printStackTrace();
         }
@@ -41,6 +41,7 @@ public class FileReaderWriter {
      */
     public boolean writeFile(File file, String content, Charset encoding) {
         try{
+            file.createNewFile();
             var writer = new BufferedWriter(
                     new OutputStreamWriter(new FileOutputStream(file), encoding));
 
