@@ -4,8 +4,7 @@ import java.io.File;
 import java.nio.charset.Charset;
 
 // *** TODO: Change this to import your own package ***
-import ch.heig.dai.lab.fileio.jehrensb.*;
-import ch.heig.dai.lab.fileio.romainfleury.FileReaderWriter;
+import ch.heig.dai.lab.fileio.romainfleury.*;
 
 public class Main {
     // *** TODO: Change this to your own name ***
@@ -34,10 +33,10 @@ public class Main {
         int wordsPerLine = Integer.parseInt(args[1]);
         System.out.println("Application started, reading folder " + folder + "...");
         // TODO: implement the main method here
-        ch.heig.dai.lab.fileio.romainfleury.FileExplorer fe = new ch.heig.dai.lab.fileio.romainfleury.FileExplorer(args[1]);
-        ch.heig.dai.lab.fileio.romainfleury.EncodingSelector es = new ch.heig.dai.lab.fileio.romainfleury.EncodingSelector();
-        ch.heig.dai.lab.fileio.romainfleury.Transformer t = new ch.heig.dai.lab.fileio.romainfleury.Transformer(newName, 3);
-        ch.heig.dai.lab.fileio.romainfleury.FileReaderWriter frw = new FileReaderWriter();
+        FileExplorer fe = new FileExplorer(args[1]);
+        EncodingSelector es = new EncodingSelector();
+        Transformer t = new Transformer(newName, 3);
+        FileReaderWriter frw = new FileReaderWriter();
 
         while (true) {
             try {
