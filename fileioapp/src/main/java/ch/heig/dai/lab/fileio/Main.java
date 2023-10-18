@@ -34,9 +34,10 @@ public class Main {
         System.out.println("Application started, reading folder " + folder + "...");
         // TODO: implement the main method here
 
-        FileExplorer fileExplorer = new FileExplorer(folder);
-        FileReaderWriter fileReaderWriter = new FileReaderWriter();
         EncodingSelector encodingSelector = new EncodingSelector();
+        FileExplorer fileExplorer = new FileExplorer(folder);
+
+        FileReaderWriter fileReaderWriter = new FileReaderWriter();
         Transformer transformer = new Transformer("Maxime Schaller", wordsPerLine);
 
         File sourceFile;
@@ -52,5 +53,7 @@ public class Main {
                 System.out.println("Exception: " + e);
             }
         }
+
+        System.out.println("Application ended, read ");
     }
 }
