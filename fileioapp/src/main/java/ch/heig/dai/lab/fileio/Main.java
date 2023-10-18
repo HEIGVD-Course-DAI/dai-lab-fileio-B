@@ -1,13 +1,14 @@
 package ch.heig.dai.lab.fileio;
 
 import java.io.File;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
-// *** TODO: Change this to import your own package ***
-import ch.heig.dai.lab.fileio.jehrensb.*;
+import ch.heig.dai.lab.fileio.maximesch.*;
 
 public class Main {
-    // *** TODO: Change this to your own name ***
-    private static final String newName = "Jean-Claude Van Damme";
+    private static final String newName = "Maxime Schaller";
 
     /**
      * Main method to transform files in a folder.
@@ -33,8 +34,18 @@ public class Main {
         System.out.println("Application started, reading folder " + folder + "...");
         // TODO: implement the main method here
 
-        while (true) {
+        FileExplorer fileExplorer = new FileExplorer(folder);
+        FileReaderWriter fileReaderWriter = new FileReaderWriter();
+        EncodingSelector encodingSelector = new EncodingSelector();
+        Transformer transformer = new Transformer("Maxime Schaller", wordsPerLine);
+
+        File sourceFile;
+
+
+        while (fileExplorer.getNewFile() != null) {
             try {
+                sourceFile = fileExplorer.getNewFile();
+                String sourceFilePath = sourceFile.getAbsolutePath();
                 // TODO: loop over all files
 
             } catch (Exception e) {
