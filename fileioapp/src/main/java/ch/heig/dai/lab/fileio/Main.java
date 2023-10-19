@@ -38,23 +38,21 @@ public class Main {
         Transformer t = new Transformer(newName, wordsPerLine);
         FileReaderWriter frw = new FileReaderWriter();
 
-        int a = 1;
         while (true) {
             try {
-                System.out.println(a);
                 // TODO: loop over all files
                 File f = fe.getNewFile();
                 if(f == null){break;}
                 Charset encoding = es.getEncoding(f);
                 String newText = frw.readFile(f, encoding);
-                newText = t.replaceChuck(newText);
-                newText = t.capitalizeWords(newText);
-                newText = t.wrapAndNumberLines(newText);
+                if(newText == null) {
+                    newText = t.replaceChuck(newText);
+                    newText = t.capitalizeWords(newText);
+                    newText = t.wrapAndNumberLines(newText);
 
-                File fw = new File(f.getName() + ".processed");
-
-                frw.writeFile(fw, newText, Charset.forName("UTF-8"));
-                a++;
+                    File fw = new File(f.getName() + ".processed");
+                    frw.writeFile(fw, newText, Charset.forName("UTF-8"));
+                }
             } catch (Exception e) {
                 System.out.println("Exception: " + e);
             }
