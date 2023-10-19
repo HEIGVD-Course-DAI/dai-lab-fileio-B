@@ -40,6 +40,7 @@ public class Main {
 
         while (true) {
             try {
+                
                 // TODO: loop over all files
                 File f = fe.getNewFile();
                 Charset encoding = es.getEncoding(f);
