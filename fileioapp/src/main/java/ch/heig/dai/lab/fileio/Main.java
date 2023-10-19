@@ -47,7 +47,7 @@ public class Main {
         while ((actualFile = fileExplorer.getNewFile()) != null) {
             try {
                 // TODO: loop over all files
-                if(actualFile.getName().endsWith(".New")){
+                if(actualFile.getName().endsWith(".processed")){
                     continue;
                 }
 
@@ -59,7 +59,7 @@ public class Main {
                 content = transformer.capitalizeWords(content);
                 content = transformer.wrapAndNumberLines(content);
 
-                File outputFile = new File(actualFile.getPath() + ".New"); // probleme ici
+                File outputFile = new File(actualFile.getPath() + ".processed");
                 if(!fileReaderWriter.writeFile(outputFile, content, actualCharset)){
                     throw new IOException("file couldn't be written");
                 }
