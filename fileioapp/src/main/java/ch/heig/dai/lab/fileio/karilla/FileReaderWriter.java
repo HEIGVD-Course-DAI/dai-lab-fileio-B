@@ -15,7 +15,24 @@ public class FileReaderWriter {
         // TODO: Implement the method body here. 
         // Use the ...Stream and ...Reader classes from the java.io package.
         // Make sure to close the streams and readers at the end.
-        return null;
+
+        StringBuilder data = new StringBuilder();
+        String line;
+        try(    InputStream in = new FileInputStream(file);
+                Reader stream = new InputStreamReader(in, encoding);
+                BufferedReader reader = new BufferedReader(stream)){
+
+                while((line = reader.readLine()) != null){
+                    data.append(line).append("\n");
+                }
+                reader.close();
+                stream.close();
+                in.close();
+        }
+        catch (Exception e){
+            return null;
+        }
+        return data.toString();
     }
 
     /**
@@ -29,6 +46,21 @@ public class FileReaderWriter {
         // TODO: Implement the method body here. 
         // Use the ...Stream and ...Reader classes from the java.io package.
         // Make sure to flush the data and close the streams and readers at the end.
-        return false;
+
+        try(OutputStream out = new  FileOutputStream(file);
+            Writer stream = new OutputStreamWriter(out, encoding);
+            BufferedWriter writer = new BufferedWriter(stream)){
+
+            writer.write(content);
+            writer.close();
+            stream.close();
+            out.close();
+        }
+        catch (Exception e){
+            return false;
+        }
+
+
+        return true;
     }
 }

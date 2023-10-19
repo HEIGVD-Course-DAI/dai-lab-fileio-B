@@ -2,6 +2,7 @@ package ch.heig.dai.lab.fileio.Patrick2ooo;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class FileReaderWriter {
 
@@ -12,10 +13,21 @@ public class FileReaderWriter {
      * @return the content of the file as a String, or null if an error occurred.
      */
     public String readFile(File file, Charset encoding) {
+        StringBuilder contentOfFile = new StringBuilder();
         // TODO: Implement the method body here. 
+        try(var reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), encoding));){
+            String line;
+            while((line = reader.readLine()) != null){
+                contentOfFile.append(line).append("\n");
+            }
+            reader.close();
+            return contentOfFile.toString();
+        }
+        catch(IOException e){
+            return null;
+        }
         // Use the ...Stream and ...Reader classes from the java.io package.
         // Make sure to close the streams and readers at the end.
-        return null;
     }
 
     /**
@@ -27,8 +39,16 @@ public class FileReaderWriter {
      */
     public boolean writeFile(File file, String content, Charset encoding) {
         // TODO: Implement the method body here. 
+        try(var os = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));){
+            os.write(content);
+            os.flush();
+            os.close();
+
+            return true;
+        }catch(IOException e){
+            return false;
+        }
         // Use the ...Stream and ...Reader classes from the java.io package.
         // Make sure to flush the data and close the streams and readers at the end.
-        return false;
     }
 }

@@ -3,8 +3,21 @@ package ch.heig.dai.lab.fileio.LeoR;
 import java.io.File;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EncodingSelector {
+
+    // Followed your advice and used map to avoid the repetition of "else if" instructions
+    private final Map<String, Charset> encodingMap;
+    public EncodingSelector()
+    {
+        encodingMap = new HashMap<>();
+        encodingMap.put(".utf8", StandardCharsets.UTF_8);
+        encodingMap.put(".txt", StandardCharsets.US_ASCII);
+        encodingMap.put(".utf16be", StandardCharsets.UTF_16BE);
+        encodingMap.put(".utf16le", StandardCharsets.UTF_16LE);
+    }
 
     /**
      * Get the encoding of a file based on its extension.
@@ -21,25 +34,18 @@ public class EncodingSelector {
     {
         // TODO: implement the method body here
 
+        if (file == null) {return null;}
+
         String fileName = file.getName();
-        if (fileName.endsWith(".utf8"))
+        for (String extension : encodingMap.keySet())
         {
-            return StandardCharsets.UTF_8;
-        }
-        else if (fileName.endsWith(".txt"))
-        {
-            return StandardCharsets.US_ASCII;
-        }
-        else if (fileName.endsWith(".utf16be"))
-        {
-            return StandardCharsets.UTF_16BE;
-        }
-        else if (fileName.endsWith(".utf16le"))
-        {
-            return StandardCharsets.UTF_16LE;
+            if (fileName.endsWith(extension))
+            {
+                return encodingMap.get(extension);
+            }
         }
 
-        // Return null if the extension is not recognized
+        // If we're here, the extension hasn't been recognized from the map
         return null;
     }
 }

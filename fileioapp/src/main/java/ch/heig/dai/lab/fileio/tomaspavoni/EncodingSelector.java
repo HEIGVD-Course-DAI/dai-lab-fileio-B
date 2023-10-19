@@ -2,8 +2,17 @@ package ch.heig.dai.lab.fileio.tomaspavoni;
 
 import java.io.File;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 public class EncodingSelector {
+
+    private static final Map<String, Charset> EXTENSION_MAP = Map.of(
+            ".utf8", StandardCharsets.UTF_8,
+            ".txt", StandardCharsets.US_ASCII,
+            ".utf16be", StandardCharsets.UTF_16BE,
+            ".utf16le", StandardCharsets.UTF_16LE
+    );
 
     /**
      * Get the encoding of a file based on its extension.
@@ -17,7 +26,15 @@ public class EncodingSelector {
      * @return the encoding of the file, or null if the extension is not recognized
      */
     public Charset getEncoding(File file) {
-        // TODO: implement the method body here
-        return null;
+        String fileName = file.getName();
+
+        int extensionIndex = fileName.lastIndexOf('.');
+        if(extensionIndex == -1) {
+            return null;
+        }
+
+        String extension = fileName.substring(extensionIndex);
+
+        return EXTENSION_MAP.get(extension);
     }
 }

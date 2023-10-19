@@ -2,6 +2,7 @@ package ch.heig.dai.lab.fileio.emariaux;
 
 import java.io.File;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class EncodingSelector {
 
@@ -16,8 +17,34 @@ public class EncodingSelector {
      * @param file the file to get the encoding from
      * @return the encoding of the file, or null if the extension is not recognized
      */
-    public Charset getEncoding(File file) {
-        // TODO: implement the method body here
+    public Charset getEncoding(File file)
+    {
+        String fileName = file.getName();
+        String extension = "";
+
+        int index = fileName.lastIndexOf('.');
+        if (index > 0) {
+            extension = fileName.substring(index + 1);
+
+
+            switch (extension){
+                case "utf8" :
+                    return StandardCharsets.UTF_8;
+
+                case "txt" :
+                    return StandardCharsets.US_ASCII;
+
+                case "utf16be" :
+                    return StandardCharsets.UTF_16BE;
+
+                case "utf16le" :
+                    return StandardCharsets.UTF_16LE;
+
+                default:
+                    return null;
+            }
+        }
+
         return null;
     }
 }

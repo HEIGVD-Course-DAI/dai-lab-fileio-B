@@ -1,4 +1,9 @@
 package ch.heig.dai.lab.fileio.Istomine;
+
+import java.util.Arrays;
+import java.util.stream.Stream;
+
+
 public class Transformer {
 
     private final String newName;
@@ -22,8 +27,7 @@ public class Transformer {
      * @return the transformed string
      */
     public String replaceChuck(String source) {
-        // TODO: Implement the method body here.
-        return "";
+        return  source.replace("Chuck Norris",newName);
     }
 
     /**
@@ -32,8 +36,23 @@ public class Transformer {
      * @return the transformed string
      */
     public String capitalizeWords(String source) {
-        // TODO: Implement the method body here.
-        return "";
+
+        String[] words = source.split(" ");
+        StringBuilder result = new StringBuilder();
+
+        for (String word : words) {
+            if (!word.isEmpty()) {
+                char firstChar = Character.toUpperCase(word.charAt(0));
+                String restOfWord = word.substring(1);
+                result.append(firstChar).append(restOfWord).append(" ");
+            }
+        }
+
+        if (result.length() > 0) {
+            result.setLength(result.length() - 1);
+        }
+
+        return result.toString();
     }
 
     /**
@@ -43,8 +62,25 @@ public class Transformer {
      * @return the transformed string
      */
     public String wrapAndNumberLines(String source) {
-        // TODO: Implement the method body here.
         // Use the StringBuilder class to build the result string.
-        return "";
+
+        String[] words = source.split(" ");
+        StringBuilder result = new StringBuilder();
+        int i = 1, y = 0, counter;
+
+        while(true){
+            result.append(i++).append(". ");
+            counter = 0;
+            for(;y < words.length;++y, ++counter){
+                if (counter == numWordsPerLine){break;}
+                result.append(words[y]).append(" ");
+            }
+            result.deleteCharAt(result.length()-1);
+            result.append("\n");
+            if(y == words.length){break;}
+        }
+
+
+        return result.toString();
     }
 }   

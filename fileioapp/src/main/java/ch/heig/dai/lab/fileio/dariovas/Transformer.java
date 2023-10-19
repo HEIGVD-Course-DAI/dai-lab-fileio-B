@@ -1,7 +1,6 @@
 package ch.heig.dai.lab.fileio.dariovas;
 
 public class Transformer {
-
     private final String newName;
     private final int numWordsPerLine;
 
@@ -23,8 +22,7 @@ public class Transformer {
      * @return the transformed string
      */
     public String replaceChuck(String source) {
-        // TODO: Implement the method body here.
-        return "";
+        return source.replaceAll("Chuck Norris", newName);
     }
 
     /**
@@ -33,8 +31,22 @@ public class Transformer {
      * @return the transformed string
      */
     public String capitalizeWords(String source) {
-        // TODO: Implement the method body here.
-        return "";
+        StringBuilder result = new StringBuilder();
+
+        for(String word : source.split("\\s")){
+            // Adds a space between all words except the first one
+            if(!result.isEmpty())
+                result.append(' ');
+
+            // Capitalizes the first letter
+            result.append(word.substring(0, 1).toUpperCase());
+
+            // Adds the rest of the word
+            if(word.length() > 1){
+                result.append(word.substring(1));
+            }
+        }
+        return result.toString();
     }
 
     /**
@@ -44,8 +56,26 @@ public class Transformer {
      * @return the transformed string
      */
     public String wrapAndNumberLines(String source) {
-        // TODO: Implement the method body here.
         // Use the StringBuilder class to build the result string.
-        return "";
+        StringBuilder result = new StringBuilder();
+        String[] words = source.split("\\s");
+
+        for(int i = 0; i < words.length; ++i){
+            // Checks if it's a new line
+            if(i % numWordsPerLine == 0){
+                // Checks if it's an end of a line
+                if(i / numWordsPerLine > 0){
+                    result.append('\n');
+                }
+                // Adds the line number with a dot at the end
+                result.append((i / numWordsPerLine + 1)).append('.');
+            }
+
+            result.append(' ').append(words[i]);
+        }
+
+        result.append('\n');
+
+        return result.toString();
     }
 }   

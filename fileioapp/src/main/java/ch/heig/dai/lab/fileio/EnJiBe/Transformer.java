@@ -23,8 +23,7 @@ public class Transformer {
      * @return the transformed string
      */
     public String replaceChuck(String source) {
-        // TODO: Implement the method body here.
-        return "";
+        return source.replace("Chuck Norris", newName);
     }
 
     /**
@@ -33,8 +32,26 @@ public class Transformer {
      * @return the transformed string
      */
     public String capitalizeWords(String source) {
-        // TODO: Implement the method body here.
-        return "";
+        if (source == null || source.isEmpty())
+        {
+            return source;
+        }
+
+        String[] words = source.split("\\s+");
+        StringBuilder capitalizedString = new StringBuilder();
+
+        for (String word : words)
+        {
+            if (!word.isEmpty())
+            {
+                capitalizedString.append(Character.toUpperCase(word.charAt(0)));
+                capitalizedString.append(word.substring(1).toLowerCase());
+                capitalizedString.append(" ");
+            }
+        }
+
+        return capitalizedString.toString().trim();
+
     }
 
     /**
@@ -44,8 +61,35 @@ public class Transformer {
      * @return the transformed string
      */
     public String wrapAndNumberLines(String source) {
-        // TODO: Implement the method body here.
-        // Use the StringBuilder class to build the result string.
-        return "";
+        if (source == null || source.isEmpty())
+        {
+            return source;
+        }
+
+        String[] words = source.split("\\s+");
+        StringBuilder transformedString = new StringBuilder();
+        int wordCount = 0;
+        int lineNumber = 1;
+
+        for (String word : words)
+        {
+            if (wordCount == numWordsPerLine)
+            {
+                transformedString.deleteCharAt(transformedString.length() - 1);
+                transformedString.append("\n");
+                wordCount = 0;
+            }
+
+            if (0 == wordCount)
+            {
+                transformedString.append(lineNumber++).append(". ");
+            }
+
+            transformedString.append(word).append(" ");
+            ++wordCount;
+        }
+
+        return transformedString.deleteCharAt(transformedString.length() - 1).append('\n').toString();
     }
-}   
+}
+
