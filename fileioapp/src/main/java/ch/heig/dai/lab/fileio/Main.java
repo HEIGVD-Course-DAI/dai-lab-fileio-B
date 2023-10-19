@@ -2,6 +2,8 @@ package ch.heig.dai.lab.fileio;
 
 import java.io.File;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 // *** TODO: Change this to import your own package ***
 import ch.heig.dai.lab.fileio.romainfleury.*;
@@ -42,16 +44,23 @@ public class Main {
             try {
                 // TODO: loop over all files
                 File f = fe.getNewFile();
-                if(f == null){break;}
-                Charset encoding = es.getEncoding(f);
-                String newText = frw.readFile(f, encoding);
-                if(newText == null) {
-                    newText = t.replaceChuck(newText);
-                    newText = t.capitalizeWords(newText);
-                    newText = t.wrapAndNumberLines(newText);
+                if(f == null){
+                    System.out.println("All Files have been processed.");
+                    break;
+                }
 
-                    File fw = new File(f.getName() + ".processed");
-                    frw.writeFile(fw, newText, Charset.forName("UTF-8"));
+                Charset encoding = es.getEncoding(f);
+                if(encoding != null) {
+                    String newText = frw.readFile(f, encoding);
+                    if (newText != null) {
+                        newText = t.replaceChuck(newText);
+                        newText = t.capitalizeWords(newText);
+                        newText = t.wrapAndNumberLines(newText);
+
+                        Path p = Paths.get(f.getPath() + ".processed");
+                        frw.writeFile(p.toFile(), newText, Charset.forName("UTF-8"));
+                        System.out.println("File processed : " + p.toFile());
+                    }
                 }
             } catch (Exception e) {
                 System.out.println("Exception: " + e);
