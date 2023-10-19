@@ -52,6 +52,7 @@ public class FileReaderWriter {
             BufferedWriter writer = new BufferedWriter(stream)){
 
             writer.write(content);
+            writer.flush();
             writer.close();
             stream.close();
             out.close();
