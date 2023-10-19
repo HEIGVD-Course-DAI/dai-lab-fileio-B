@@ -33,16 +33,18 @@ public class Main {
         int wordsPerLine = Integer.parseInt(args[1]);
         System.out.println("Application started, reading folder " + folder + "...");
         // TODO: implement the main method here
-        FileExplorer fe = new FileExplorer(args[1]);
+        FileExplorer fe = new FileExplorer(folder);
         EncodingSelector es = new EncodingSelector();
-        Transformer t = new Transformer(newName, 3);
+        Transformer t = new Transformer(newName, wordsPerLine);
         FileReaderWriter frw = new FileReaderWriter();
 
+        int a = 1;
         while (true) {
             try {
-                
+                System.out.println(a);
                 // TODO: loop over all files
                 File f = fe.getNewFile();
+                if(f == null){break;}
                 Charset encoding = es.getEncoding(f);
                 String newText = frw.readFile(f, encoding);
                 newText = t.replaceChuck(newText);
@@ -52,7 +54,7 @@ public class Main {
                 File fw = new File(f.getName() + ".processed");
 
                 frw.writeFile(fw, newText, Charset.forName("UTF-8"));
-
+                a++;
             } catch (Exception e) {
                 System.out.println("Exception: " + e);
             }
