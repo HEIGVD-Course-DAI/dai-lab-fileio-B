@@ -22,9 +22,9 @@ public class Transformer {
      * @param source the string to transform
      * @return the transformed string
      */
-    public String replaceChuck(String source) {
-        // TODO: Implement the method body here.
-        return "";
+    public String replaceChuck(String source){
+
+        return source.replaceAll("Chuck Norris", newName);
     }
 
     /**
@@ -33,8 +33,16 @@ public class Transformer {
      * @return the transformed string
      */
     public String capitalizeWords(String source) {
-        // TODO: Implement the method body here.
-        return "";
+        String[] wordList = source.split(" ");
+        StringBuilder newStringBuilder = new StringBuilder();
+        String capitalizedLetter = "";
+        for (String s : wordList) {
+            capitalizedLetter = Character.toString(Character.toUpperCase(s.charAt(0)));
+            newStringBuilder.append(capitalizedLetter).append(s.substring(1)).append(" ");
+        }
+        String newString = newStringBuilder.toString();
+        newString = newString.substring(0,newString.length() -1);
+        return newString;
     }
 
     /**
@@ -44,8 +52,35 @@ public class Transformer {
      * @return the transformed string
      */
     public String wrapAndNumberLines(String source) {
-        // TODO: Implement the method body here.
-        // Use the StringBuilder class to build the result string.
-        return "";
+        StringBuilder result = new StringBuilder(source.length());
+        int wordsCount = 0;
+        int index = 0;
+
+        result.append("1. ");
+
+        while(true) {
+            // Get the word
+            while (source.charAt(index) != ' ') {
+                if (index == source.length() - 1) {
+                    result.append(source.charAt(index)).append("\n");
+
+                    return result.toString();
+                }
+
+                result.append(source.charAt(index));
+                ++index;
+            }
+
+            ++wordsCount;
+
+            // Add a new line if needed
+            if (wordsCount % numWordsPerLine == 0) {
+                result.append("\n").append(wordsCount / numWordsPerLine + 1).append(". ");
+            } else {
+                result.append(source.charAt(index));
+            }
+
+            ++index;
+        }
     }
 }   

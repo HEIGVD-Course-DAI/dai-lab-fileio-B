@@ -23,8 +23,7 @@ public class Transformer {
      * @return the transformed string
      */
     public String replaceChuck(String source) {
-        // TODO: Implement the method body here.
-        return "";
+        return source.replace("Chuck Norris", newName);
     }
 
     /**
@@ -33,8 +32,22 @@ public class Transformer {
      * @return the transformed string
      */
     public String capitalizeWords(String source) {
-        // TODO: Implement the method body here.
-        return "";
+        StringBuilder result = new StringBuilder();
+        String[] splitSource = source.split("\\s");
+
+        for(int i = 0; i < splitSource.length; ++i){
+            String curWord = splitSource[i];
+
+            result.append(curWord.substring(0, 1).toUpperCase());
+            if (curWord.length() > 1){
+                result.append(curWord.substring(1, curWord.length()));
+            }
+
+            if(i != splitSource.length - 1){ // add a space before the next word (so if the current one is not the last)
+                result.append(' ');
+            }
+        }
+        return result.toString();
     }
 
     /**
@@ -44,8 +57,28 @@ public class Transformer {
      * @return the transformed string
      */
     public String wrapAndNumberLines(String source) {
-        // TODO: Implement the method body here.
-        // Use the StringBuilder class to build the result string.
-        return "";
+        StringBuilder result = new StringBuilder();
+        String[] splitSource = source.split("\\s");
+
+        int curWordNum = 0;
+        int curLine = 1;
+
+        while(curWordNum < splitSource.length){
+            result.append(curLine);
+            result.append('.');
+
+            String curWord = splitSource[curWordNum];
+
+            for(int i = 0; (i < numWordsPerLine) && (curWordNum < splitSource.length); ++i){
+                curWord = splitSource[curWordNum];
+                result.append(' ');
+                result.append(curWord);
+                ++curWordNum;
+            }
+            result.append('\n');
+            ++curLine;
+        }
+
+        return result.toString();
     }
 }   

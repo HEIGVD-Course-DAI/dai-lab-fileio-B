@@ -1,5 +1,8 @@
 package ch.heig.dai.lab.fileio.fabricechapuis;
 
+import static java.lang.Character.forDigit;
+import static java.lang.Character.toUpperCase;
+
 public class Transformer {
 
     private final String newName;
@@ -23,8 +26,16 @@ public class Transformer {
      * @return the transformed string
      */
     public String replaceChuck(String source) {
-        // TODO: Implement the method body here.
-        return "";
+        String[] strWithoutName = source.split("Chuck Norris");
+        StringBuilder newString = new StringBuilder();
+
+        for (int i = 0; i < strWithoutName.length; ++i) {
+            newString.append(strWithoutName[i]);
+            if (i < strWithoutName.length - 1) {
+                newString.append(this.newName);
+            }
+        }
+        return newString.toString();
     }
 
     /**
@@ -33,8 +44,19 @@ public class Transformer {
      * @return the transformed string
      */
     public String capitalizeWords(String source) {
-        // TODO: Implement the method body here.
-        return "";
+        String[] words = source.split(" ");
+        StringBuilder newWords = new StringBuilder();
+
+        for (int i = 0; i < words.length; ++i) {
+            newWords.append(toUpperCase(words[i].charAt(0)));
+            for (int j = 1; j < words[i].length(); ++j) {
+                newWords.append(words[i].charAt(j));
+            }
+            if (i < words.length - 1) {
+                newWords.append(" ");
+            }
+        }
+        return newWords.toString();
     }
 
     /**
@@ -44,8 +66,27 @@ public class Transformer {
      * @return the transformed string
      */
     public String wrapAndNumberLines(String source) {
-        // TODO: Implement the method body here.
-        // Use the StringBuilder class to build the result string.
-        return "";
+        int numLine = 0;
+        StringBuilder result = new StringBuilder();
+
+        String[] stringList = source.split(" ");
+
+        for (int i = 0; i < stringList.length; ++i) {
+            if (i != 0) {
+                if (i % (numWordsPerLine) == 0) {
+                    result.append("\n");
+                }
+                result.append(" ");
+            }
+            result.append(stringList[i]);
+        }
+        String[] linesList = result.toString().split("\n ");
+        result.setLength(0);
+        for (String str : linesList) {
+            result.append((char) (++numLine + '0')).append(". ");
+
+            result.append(str).append("\n");
+        }
+        return result.toString();
     }
 }   
