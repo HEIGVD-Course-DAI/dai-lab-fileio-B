@@ -26,6 +26,7 @@ public class EncodingSelector {
 
         String extension = fileName.substring(dotIndex);
 
+
         return switch (extension) {
             case "utf8" -> StandardCharsets.UTF_8;
             case "txt" -> StandardCharsets.US_ASCII;
@@ -33,5 +34,6 @@ public class EncodingSelector {
             case "utf16le" -> StandardCharsets.UTF_16LE;
             default -> null;
         };
+
     }
 }

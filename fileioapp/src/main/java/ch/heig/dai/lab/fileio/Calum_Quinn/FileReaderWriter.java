@@ -21,11 +21,13 @@ public class FileReaderWriter {
         try {
             reader = new BufferedReader(new FileReader(file, encoding));
             content = reader.readLine();
+
             reader.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         return content;
+
     }
 
     /**
@@ -46,6 +48,7 @@ public class FileReaderWriter {
             writer.write(content);
             writer.flush();
             writer.close();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -7,7 +7,7 @@ public class Transformer {
 
     /**
      * Constructor
-     * Initialize the Transformer with the name to replace "Chuck Norris" with 
+     * Initialize the Transformer with the name to replace "Chuck Norris" with
      * and the number of words per line to use when wrapping the text.
      * @param newName the name to replace "Chuck Norris" with
      * @param numWordsPerLine the number of words per line to use when wrapping the text
@@ -23,8 +23,7 @@ public class Transformer {
      * @return the transformed string
      */
     public String replaceChuck(String source) {
-        // TODO: Implement the method body here.
-        return "";
+        return source.replaceAll("Chuck Norris", newName);
     }
 
     /**
@@ -33,8 +32,22 @@ public class Transformer {
      * @return the transformed string
      */
     public String capitalizeWords(String source) {
-        // TODO: Implement the method body here.
-        return "";
+        if (source == null || source.isEmpty()) {
+            return "";
+        }
+
+        String[] words = source.split("\\s");
+        StringBuilder captitalizeWords = new StringBuilder();
+        for (int i = 0; i < words.length; ++i) {
+            String firstLetter = words[i].substring(0,1);
+            String secondLetter = words[i].substring(1);
+            captitalizeWords.append(firstLetter.toUpperCase()).append(secondLetter);
+            if (i < words.length - 1) {
+                captitalizeWords.append(' ');
+            }
+        }
+
+        return captitalizeWords.toString();
     }
 
     /**
@@ -44,8 +57,27 @@ public class Transformer {
      * @return the transformed string
      */
     public String wrapAndNumberLines(String source) {
-        // TODO: Implement the method body here.
-        // Use the StringBuilder class to build the result string.
-        return "";
+        if (source == null || source.isEmpty() || numWordsPerLine <= 0) {
+            return "";
+        }
+
+        String[] words = source.split("\\s+");
+
+        StringBuilder wrappedLines = new StringBuilder();
+        int lineCount = 0;
+        int wordCount = 0;
+        while (wordCount < words.length) {
+            wrappedLines.append(++lineCount).append(". ");
+            for (int j = 0; j < numWordsPerLine; ++j) {
+                wrappedLines.append(words[wordCount++]);
+                if (wordCount == words.length) break;
+                if (j < numWordsPerLine - 1) {
+                    wrappedLines.append(' ');
+                }
+            }
+            wrappedLines.append('\n');
+        }
+
+        return wrappedLines.toString();
     }
 }   

@@ -2,6 +2,7 @@ package ch.heig.dai.lab.fileio.romainfleury;
 
 import java.io.File;
 import java.util.HashSet;
+import java.io.*;
 
 public class FileExplorer {
     private final File folder;
@@ -26,6 +27,16 @@ public class FileExplorer {
      */
     public File getNewFile() {
         // TODO: implement the method body here
+        File[] files  = folder.listFiles();
+        if(files != null){
+            for(File f : files){
+                if(!knownFiles.contains(f)){
+                    knownFiles.add(f);
+                    return f;
+                }
+            }
+        }
+
         return null;
     }
 }

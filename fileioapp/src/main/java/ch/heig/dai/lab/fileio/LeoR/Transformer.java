@@ -24,7 +24,9 @@ public class Transformer {
      */
     public String replaceChuck(String source) {
         // TODO: Implement the method body here.
-        return "";
+
+        if (source == null) {return null;}
+        return source.replace("Chuck Norris", newName);
     }
 
     /**
@@ -34,7 +36,23 @@ public class Transformer {
      */
     public String capitalizeWords(String source) {
         // TODO: Implement the method body here.
-        return "";
+
+        if (source == null) return null;
+
+        String[] words = source.split("\\s");
+        StringBuilder capitalizedWords = new StringBuilder();
+
+        for (String word : words)
+        {
+            if (word.length() > 0)
+            {
+                capitalizedWords
+                    .append(Character.toUpperCase(word.charAt(0))) // First letter to uppercase
+                    .append(word.substring(1).toLowerCase()) // Rest of the word as lowercase
+                    .append(" ");}
+        }
+
+        return capitalizedWords.toString().trim();
     }
 
     /**
@@ -46,6 +64,49 @@ public class Transformer {
     public String wrapAndNumberLines(String source) {
         // TODO: Implement the method body here.
         // Use the StringBuilder class to build the result string.
-        return "";
+
+        if (source == null || source.isEmpty()) {return source;}
+
+        StringBuilder result = new StringBuilder();
+        String[] words = source.split(" ");
+
+        int currentLineWordCount = 0;
+        int lineNumber = 1;
+
+        // Iterating on every word
+        for (int i = 0; i < words.length; i++)
+        {
+            // If the line is empty, it's still a line to count
+            if (currentLineWordCount == 0)
+            {
+                result.append(lineNumber).append(". ");
+                lineNumber++;
+            }
+
+            result.append(words[i]);
+            currentLineWordCount++;
+
+            // Break the line if the max number of words is reached
+            if (currentLineWordCount == numWordsPerLine)
+            {
+                result.append("\n");
+                currentLineWordCount = 0;
+            }
+            else
+            {
+                result.append(" ");
+            }
+        }
+
+        // Removing the last space
+        if (result.charAt(result.length() - 1) == ' ')
+        {
+            result.deleteCharAt(result.length() - 1);
+        }
+
+        // Ensure there is a line break at the end
+        result.append("\n");
+
+        return result.toString();
     }
 }   

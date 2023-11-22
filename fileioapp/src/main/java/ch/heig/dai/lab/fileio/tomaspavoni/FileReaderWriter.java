@@ -1,5 +1,7 @@
 package ch.heig.dai.lab.fileio.tomaspavoni;
 
+import com.sun.source.tree.WhileLoopTree;
+
 import java.io.*;
 import java.nio.charset.Charset;
 
@@ -12,10 +14,17 @@ public class FileReaderWriter {
      * @return the content of the file as a String, or null if an error occurred.
      */
     public String readFile(File file, Charset encoding) {
-        // TODO: Implement the method body here. 
-        // Use the ...Stream and ...Reader classes from the java.io package.
-        // Make sure to close the streams and readers at the end.
-        return null;
+        StringBuilder stringBuilderOutput = new StringBuilder();
+        try(BufferedReader reader = new BufferedReader(new FileReader(file, encoding))) {
+            String line;
+            while (((line = reader.readLine()) != null)) {
+                stringBuilderOutput.append(line + '\n');
+            }
+        } catch (IOException e) {
+            System.out.println("Exception: " + e);
+        }
+
+        return stringBuilderOutput.toString();
     }
 
     /**
@@ -26,9 +35,13 @@ public class FileReaderWriter {
      * @return true if the file was written successfully, false otherwise
      */
     public boolean writeFile(File file, String content, Charset encoding) {
-        // TODO: Implement the method body here. 
-        // Use the ...Stream and ...Reader classes from the java.io package.
-        // Make sure to flush the data and close the streams and readers at the end.
-        return false;
+        try(FileWriter writer = new FileWriter(file, encoding)) {
+            writer.write(content);
+            writer.flush();
+        } catch (IOException e) {
+            System.out.println("Exception: " + e);
+            return false;
+        }
+        return true;
     }
 }

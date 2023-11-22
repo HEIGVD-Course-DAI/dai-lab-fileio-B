@@ -2,6 +2,7 @@ package ch.heig.dai.lab.fileio.SaskyaPanchaud;
 
 import java.io.File;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class EncodingSelector {
 
@@ -18,6 +19,22 @@ public class EncodingSelector {
      */
     public Charset getEncoding(File file) {
         // TODO: implement the method body here
-        return null;
+        String fileName = file.getName();
+
+        int extensionBegin = fileName.lastIndexOf(".");
+
+        if (extensionBegin == -1) {
+            return null;
+        }
+
+        String extension = fileName.substring(extensionBegin);
+
+        switch (extension) {
+            case ".utf8" : return StandardCharsets.UTF_8;
+            case ".txt" :  return StandardCharsets.US_ASCII;
+            case ".utf16be" : return StandardCharsets.UTF_16BE;
+            case ".utf16le" : return StandardCharsets.UTF_16LE;
+            default : return null;
+        }
     }
 }

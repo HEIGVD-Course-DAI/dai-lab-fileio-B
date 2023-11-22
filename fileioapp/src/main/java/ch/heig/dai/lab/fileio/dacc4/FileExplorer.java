@@ -5,7 +5,7 @@ import java.util.HashSet;
 
 public class FileExplorer {
     private final File folder;
-    private HashSet<File> knownFiles;
+    private final HashSet<File> knownFiles;
 
     /**
      * Constructor
@@ -14,7 +14,7 @@ public class FileExplorer {
      */
     public FileExplorer(String folder) {
         this.folder = new File(folder);
-        this.knownFiles = new HashSet<File>();
+        this.knownFiles = new HashSet<>();
     }
 
     /**
@@ -25,7 +25,27 @@ public class FileExplorer {
      * @return a new file, or null if there is no new file
      */
     public File getNewFile() {
-        // TODO: implement the method body here
-        return null;
+        File[] files = folder.listFiles();
+
+        // If the folder is empty or all files have been returned, return null
+        if (files == null || files.length == knownFiles.size()) {
+            return null;
+        }
+
+        // Find the first file that hasn't been returned yet
+        File newFile = null;
+        for (File file : files) {
+            if (!knownFiles.contains(file)) {
+                newFile = file;
+                break; // Found a new file, stop searching
+            }
+        }
+
+        // If a new file was found, add its name to the knownFiles set and return it
+        if (newFile != null) {
+            knownFiles.add(newFile);
+        }
+
+        return newFile;
     }
 }

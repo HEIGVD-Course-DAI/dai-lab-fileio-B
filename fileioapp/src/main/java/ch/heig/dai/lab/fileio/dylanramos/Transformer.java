@@ -23,8 +23,9 @@ public class Transformer {
      * @return the transformed string
      */
     public String replaceChuck(String source) {
-        // TODO: Implement the method body here.
-        return "";
+        String textToReplace = "Chuck Norris";
+
+        return source.replaceAll(textToReplace, newName);
     }
 
     /**
@@ -33,8 +34,15 @@ public class Transformer {
      * @return the transformed string
      */
     public String capitalizeWords(String source) {
-        // TODO: Implement the method body here.
-        return "";
+        source = source.substring(0, 0) + Character.toUpperCase(source.charAt(0)) + source.substring(1);
+
+        for(int i = 1; i < source.length(); ++i) {
+            if(source.charAt(i - 1) == ' ') {
+                source = source.substring(0, i) + Character.toUpperCase(source.charAt(i)) + source.substring(i + 1);
+            }
+        }
+
+        return source;
     }
 
     /**
@@ -44,8 +52,35 @@ public class Transformer {
      * @return the transformed string
      */
     public String wrapAndNumberLines(String source) {
-        // TODO: Implement the method body here.
-        // Use the StringBuilder class to build the result string.
-        return "";
+        StringBuilder result = new StringBuilder(source.length());
+        int wordsCount = 0;
+        int index = 0;
+
+        result.append("1. ");
+
+        while(true) {
+            // Get the word
+            while (source.charAt(index) != ' ') {
+                if (index == source.length() - 1) {
+                    result.append(source.charAt(index)).append("\n");
+
+                    return result.toString();
+                }
+
+                result.append(source.charAt(index));
+                ++index;
+            }
+
+            ++wordsCount;
+
+            // Add a new line if needed
+            if (wordsCount % numWordsPerLine == 0) {
+                result.append("\n").append(wordsCount / numWordsPerLine + 1).append(". ");
+            } else {
+                result.append(source.charAt(index));
+            }
+
+            ++index;
+        }
     }
 }   

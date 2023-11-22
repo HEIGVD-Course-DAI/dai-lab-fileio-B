@@ -1,6 +1,10 @@
 package ch.heig.dai.lab.fileio.LeoR;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.charset.Charset;
 
 public class FileReaderWriter {
@@ -11,11 +15,34 @@ public class FileReaderWriter {
      * @param encoding
      * @return the content of the file as a String, or null if an error occurred.
      */
-    public String readFile(File file, Charset encoding) {
+    public String readFile(File file, Charset encoding)
+    {
         // TODO: Implement the method body here. 
         // Use the ...Stream and ...Reader classes from the java.io package.
         // Make sure to close the streams and readers at the end.
-        return null;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file, encoding)))
+        {
+            StringBuilder content = new StringBuilder();
+            String line;
+
+            while ((line = reader.readLine()) != null)
+            {
+                content.append(line).append("\n");
+            }
+
+            // Remove the last newline character
+            if (!content.isEmpty())
+            {
+                content.deleteCharAt(content.length() - 1);
+            }
+
+            return content.toString();
+        }
+        catch (IOException e)
+        {
+            return null;
+        }
     }
 
     /**
@@ -25,10 +52,22 @@ public class FileReaderWriter {
      * @param encoding the encoding to use
      * @return true if the file was written successfully, false otherwise
      */
-    public boolean writeFile(File file, String content, Charset encoding) {
+    public boolean writeFile(File file, String content, Charset encoding)
+    {
         // TODO: Implement the method body here. 
         // Use the ...Stream and ...Reader classes from the java.io package.
         // Make sure to flush the data and close the streams and readers at the end.
-        return false;
+
+        try (FileWriter writer = new FileWriter(file, encoding))
+        {
+            writer.write(content);
+            writer.flush();
+
+            return true;
+        }
+        catch (IOException e)
+        {
+            return false;
+        }
     }
 }

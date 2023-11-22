@@ -23,8 +23,7 @@ public class Transformer {
      * @return the transformed string
      */
     public String replaceChuck(String source) {
-        // TODO: Implement the method body here.
-        return "";
+        return source.replaceAll("Chuck\\sNorris", newName);
     }
 
     /**
@@ -33,8 +32,29 @@ public class Transformer {
      * @return the transformed string
      */
     public String capitalizeWords(String source) {
-        // TODO: Implement the method body here.
-        return "";
+        // Separate words by spaces
+        String[] words = source.split("\\s");
+
+        // If there are no words return the source
+        if(words.length == 0){
+            return source;
+        }
+
+        StringBuilder result = new StringBuilder();
+        for (String word : words) {
+            if(!word.isEmpty()){
+                // Add the first char in upper case
+                result.append(Character.toUpperCase(word.charAt(0)));
+                // If there are more letters/chars in the word, add them
+                if(word.length() > 1) {
+                    result.append(word.substring(1));
+                }
+                // Add a space as this is the end of the word
+                result.append(" ");
+            }
+        }
+        // Return the new value but without the trailing space
+        return result.toString().trim();
     }
 
     /**
@@ -44,8 +64,41 @@ public class Transformer {
      * @return the transformed string
      */
     public String wrapAndNumberLines(String source) {
-        // TODO: Implement the method body here.
-        // Use the StringBuilder class to build the result string.
-        return "";
+        // Separate words by spaces
+        String[] words = source.split("\\s");
+
+        // If there are no words return the source
+        if(words.length == 0){
+            return source;
+        }
+
+        StringBuilder builder = new StringBuilder();
+        // Will be used to count the word per line
+        int wordCounter = 0;
+
+        // Will be used to number the lines
+        int lineCounter = 1;
+        for (String word : words) {
+            // If start if a line add the line number
+            if(wordCounter == 0){
+                builder.append(lineCounter).append(".");
+                ++lineCounter;
+            }
+            // Add a leading space and the word
+            builder.append(" ");
+            builder.append(word);
+
+            // Increment the word
+            ++wordCounter;
+
+            // If we reached the end of the line, add the line separator
+            if(wordCounter == numWordsPerLine){
+                builder.append(System.lineSeparator());
+                wordCounter = 0;
+            }
+        }
+        // Add a last line separator at the end
+        builder.append(System.lineSeparator());
+        return builder.toString();
     }
 }   

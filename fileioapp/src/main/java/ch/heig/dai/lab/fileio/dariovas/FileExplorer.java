@@ -25,7 +25,20 @@ public class FileExplorer {
      * @return a new file, or null if there is no new file
      */
     public File getNewFile() {
-        // TODO: implement the method body here
+        File[] listOfFiles = folder.listFiles();
+
+        // Check if the directory is empty
+        if((listOfFiles != null ? listOfFiles.length : 0) == 0){
+            return null;
+        }
+
+        for(File file : listOfFiles){
+            if(!knownFiles.contains(file)){
+                knownFiles.add(file);
+                return file;
+            }
+        }
+
         return null;
     }
 }

@@ -23,8 +23,7 @@ public class Transformer {
      * @return the transformed string
      */
     public String replaceChuck(String source) {
-        // TODO: Implement the method body here.
-        return "";
+        return source.replaceAll("Chuck Norris", newName);
     }
 
     /**
@@ -33,9 +32,23 @@ public class Transformer {
      * @return the transformed string
      */
     public String capitalizeWords(String source) {
-        // TODO: Implement the method body here.
-        return "";
+        // Split the source string into words
+        String[] words = source.split("\\s+");
+        StringBuilder result = new StringBuilder();
+
+        for (String word : words) {
+            if (!word.isEmpty()) {
+                // Capitalize the first letter of the word and append it to the result
+                result.append(Character.toUpperCase(word.charAt(0)));
+                result.append(word.substring(1));
+                result.append(" ");
+            }
+        }
+
+        // Remove the trailing space and return the result
+        return result.toString().trim();
     }
+
 
     /**
      * Wrap the text so that there are at most numWordsPerLine words per line.
@@ -44,8 +57,31 @@ public class Transformer {
      * @return the transformed string
      */
     public String wrapAndNumberLines(String source) {
-        // TODO: Implement the method body here.
-        // Use the StringBuilder class to build the result string.
-        return "";
+        String[] words = source.split("\\s+");
+        StringBuilder result = new StringBuilder();
+        result.append("1.");
+        int wordCount = 0;
+        int lineCount = 1;
+
+        for (String word : words) {
+            if (!word.isEmpty()) {
+                if (wordCount == numWordsPerLine) {
+                    // Start a new line and increment the line count
+                    result.append("\n");
+                    lineCount++;
+                    result.append(lineCount).append(".");
+                    wordCount = 0;
+                }
+
+                // Append the word and a space to the result
+                result.append(" ");
+                result.append(word);
+                wordCount++;
+            }
+        }
+
+        // Return the result
+        result.append("\n");
+        return result.toString();
     }
 }   

@@ -23,8 +23,9 @@ public class Transformer {
      * @return the transformed string
      */
     public String replaceChuck(String source) {
-        // TODO: Implement the method body here.
-        return "";
+        // Assumption : Chuck Norris always in full and with this case
+        //              Never Chuck alone or Norris alone
+        return source.replace("Chuck Norris", newName);
     }
 
     /**
@@ -33,8 +34,21 @@ public class Transformer {
      * @return the transformed string
      */
     public String capitalizeWords(String source) {
-        // TODO: Implement the method body here.
-        return "";
+        if (source == null) {
+            throw new NullPointerException("source is null !");
+            // Exception would anyway be thrown by source.split(" ") below
+        }
+
+        // String[] words = source.split(" ");
+        String[] words = source.split("\\s+");
+        StringBuilder result = new StringBuilder();
+
+        for (String word : words) {
+            result.append(word.substring(0, 1).toUpperCase())
+                  .append(word.substring(1).toLowerCase())
+                  .append(" ");
+        }
+        return result.toString().trim();
     }
 
     /**
@@ -44,8 +58,34 @@ public class Transformer {
      * @return the transformed string
      */
     public String wrapAndNumberLines(String source) {
-        // TODO: Implement the method body here.
-        // Use the StringBuilder class to build the result string.
-        return "";
+
+        if (source == null) {
+            throw new NullPointerException("source is null !");
+            // Exception would anyway be thrown by source.split(" ") below
+        }
+
+        StringBuilder result = new StringBuilder();
+        String[] words = source.split("\\s+"); // better than " " which is a special case of "\\s+"
+
+        int lineNb = 1, wordNb = 0, wordTotalNb = 0;
+
+        result.append(lineNb).append(". ");
+
+        for (String word : words) {
+            ++wordTotalNb;
+            if (wordNb < numWordsPerLine) {
+                result.append(word);
+                if (wordNb != numWordsPerLine - 1 && wordTotalNb != words.length) { result.append(" "); }
+                ++wordNb;
+            } else {
+                ++lineNb;
+                result.append(System.lineSeparator()).append(lineNb).append(". ").append(word).append(" ");
+                wordNb = 1;
+            }
+        }
+
+        result.append(System.lineSeparator());
+
+        return result.toString();
     }
 }   

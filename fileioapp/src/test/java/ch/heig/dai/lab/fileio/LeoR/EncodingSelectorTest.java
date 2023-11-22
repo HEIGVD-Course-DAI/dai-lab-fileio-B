@@ -1,7 +1,7 @@
-// TODO change this to your own package instead of LeoR ***
+// TODO change this to your own package instead of jehrensb ***
 package ch.heig.dai.lab.fileio.LeoR;
 
-import ch.heig.dai.lab.fileio.jehrensb.EncodingSelector;
+import ch.heig.dai.lab.fileio.LeoR.EncodingSelector;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +15,6 @@ public class EncodingSelectorTest {
     private final EncodingSelector selector = new EncodingSelector();
 
     @Test
-    @Disabled
     public void encodingTest() {
         assertEquals (StandardCharsets.UTF_8, selector.getEncoding(new File("file1.utf8")));
         assertEquals (StandardCharsets.US_ASCII, selector.getEncoding(new File("file1.txt")));
@@ -24,14 +23,12 @@ public class EncodingSelectorTest {
     }
 
     @Test
-    @Disabled
     public void nullTest() {
         assertEquals (null, selector.getEncoding(new File("file1.utf")));
         assertEquals (null, selector.getEncoding(new File("file1")));
     }
 
     @Test
-    @Disabled
     public void dotsTests() {
         assertEquals (StandardCharsets.UTF_8, selector.getEncoding(new File("file1.txt.utf8")));
         assertEquals (StandardCharsets.US_ASCII, selector.getEncoding(new File("file1.utf8.txt")));
