@@ -1,6 +1,5 @@
 package ch.heig.dai.lab.fileio.fabricechapuis;
 
-import static java.lang.Character.forDigit;
 import static java.lang.Character.toUpperCase;
 
 public class Transformer {
