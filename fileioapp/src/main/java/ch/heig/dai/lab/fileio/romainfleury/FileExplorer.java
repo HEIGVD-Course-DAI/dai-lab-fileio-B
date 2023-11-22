@@ -27,22 +27,13 @@ public class FileExplorer {
      */
     public File getNewFile() {
         // TODO: implement the method body here
-
         File[] files  = folder.listFiles();
-        for(File file: files){
-            // regarder si file est présent dans knownfile
-            int flag = 0;
-            for(File f: knownFiles){
-                if(file.getName().equals(f.getName())){
-                    flag = 1;
-                    break;
+        if(files != null){
+            for(File f : files){
+                if(!knownFiles.contains(f)){
+                    knownFiles.add(f);
+                    return f;
                 }
-            }
-
-            // si pas présent push dans knownfile, ajouter
-            if(flag == 0){
-                knownFiles.add(file);
-                return file;
             }
         }
 
