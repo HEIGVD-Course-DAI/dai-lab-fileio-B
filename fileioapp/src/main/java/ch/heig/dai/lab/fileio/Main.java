@@ -1,13 +1,16 @@
 package ch.heig.dai.lab.fileio;
 
 import java.io.File;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-// *** TODO: Change this to import your own package ***
-import ch.heig.dai.lab.fileio.jehrensb.*;
+// *** Import my own package ***
+import ch.heig.dai.lab.fileio.julienbilleter.*;
 
 public class Main {
-    // *** TODO: Change this to your own name ***
-    private static final String newName = "Jean-Claude Van Damme";
+    private static final String newName = "Julien Billeter";
 
     /**
      * Main method to transform files in a folder.
@@ -31,11 +34,54 @@ public class Main {
         String folder = args[0];
         int wordsPerLine = Integer.parseInt(args[1]);
         System.out.println("Application started, reading folder " + folder + "...");
-        // TODO: implement the main method here
+
+        // Construct FileExplorer object with provided folder
+        FileExplorer fileExplorer = new FileExplorer(folder);
+
+        // Construct EncodingSelector and FileReaderWriter objects
+        EncodingSelector encodingSelector = new EncodingSelector();
+        FileReaderWriter fileReaderWriter = new FileReaderWriter();
+
+        // Construct Transformer object with newName and wordsPerLine
+        Transformer transformer = new Transformer(newName, wordsPerLine);
 
         while (true) {
             try {
-                // TODO: loop over all files
+                // --- Get a file from the file explorer and check it ---
+                File file = fileExplorer.getNewFile();
+
+                if (file == null) {
+                    // No more files to process
+                    System.out.println("All files have been processed.");
+                    break;
+                }
+
+                // --- Get the file encoding and check it ---
+                Charset encoding = encodingSelector.getEncoding(file);
+
+                if (encoding == null) {
+                    // Unsupported encodings and treated files (with extension .processed)
+                    if (! (file.getName().lastIndexOf('.') != -1 &&
+                           file.getName().substring(file.getName().lastIndexOf('.')).equals(".processed")) ) {
+                        // unsupported encodings
+                        System.out.println(Paths.get(file.getPath()) + " ignored");
+                    }
+                    continue;
+                }
+
+                // --- Read the file content and check it ---
+                String content = fileReaderWriter.readFile(file, encoding);
+
+                if (content != null) {
+                    // Transform and write formatted content in a new file
+                    content = transformer.wrapAndNumberLines( transformer.capitalizeWords( transformer.replaceChuck(content) ) );
+                    Path pathFile = Paths.get(file.getPath() + ".processed");
+                    fileReaderWriter.writeFile(pathFile.toFile(), content, StandardCharsets.UTF_8);
+
+                    System.out.println(pathFile + " saved");
+                } else {
+                    System.out.println("/!\\ " + file.getPath() + " could not be read");
+                }
 
             } catch (Exception e) {
                 System.out.println("Exception: " + e);
