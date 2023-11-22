@@ -1,13 +1,16 @@
 package ch.heig.dai.lab.fileio;
 
-import java.io.File;
+import ch.heig.dai.lab.fileio.fabricechapuis.EncodingSelector;
+import ch.heig.dai.lab.fileio.fabricechapuis.FileExplorer;
+import ch.heig.dai.lab.fileio.fabricechapuis.FileReaderWriter;
+import ch.heig.dai.lab.fileio.fabricechapuis.Transformer;
 
-// *** TODO: Change this to import your own package ***
-import ch.heig.dai.lab.fileio.jehrensb.*;
+import java.io.File;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class Main {
-    // *** TODO: Change this to your own name ***
-    private static final String newName = "Jean-Claude Van Damme";
+    private static final String newName = "Fabrice Chapuis";
 
     /**
      * Main method to transform files in a folder.
@@ -31,12 +34,40 @@ public class Main {
         String folder = args[0];
         int wordsPerLine = Integer.parseInt(args[1]);
         System.out.println("Application started, reading folder " + folder + "...");
-        // TODO: implement the main method here
+
+        FileExplorer folderFiles = new FileExplorer(folder);
+        EncodingSelector encoding = new EncodingSelector();
+        FileReaderWriter readerWriter = new FileReaderWriter();
+        Transformer transformer = new Transformer(newName, wordsPerLine);
+        StringBuilder fileNameBuilder = new StringBuilder();
 
         while (true) {
             try {
-                // TODO: loop over all files
+                File file = folderFiles.getNewFile();
+                if (file == null) {
+                    System.out.println("No file left.");
+                    break;
+                }
+                System.out.println("Reading file " + file.getName() + "...");
 
+                Charset fileEncoding = encoding.getEncoding(file);
+                if (fileEncoding == null) {
+                    System.out.println("Encoding undefined or unknown.");;
+                }
+                String content = readerWriter.readFile(file, fileEncoding);
+
+                if (content == null) {
+                    System.out.println("Error while reading file or file " + file.getName() + " is empty.");
+                    continue;
+                }
+
+                fileNameBuilder.append(file.getName()).append(".processed");
+                String newContent = transformer.replaceChuck(content);
+                newContent = transformer.capitalizeWords(newContent);
+                newContent = transformer.wrapAndNumberLines(newContent);
+
+                readerWriter.writeFile(new File(file.getParent(), fileNameBuilder.toString()), newContent, StandardCharsets.UTF_8);
+                fileNameBuilder.setLength(0);
             } catch (Exception e) {
                 System.out.println("Exception: " + e);
             }
