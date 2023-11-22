@@ -1,21 +1,20 @@
 package ch.heig.dai.lab.fileio.Calum_Quinn;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.util.HashSet;
 
 public class FileExplorer {
     private final File folder;
-    private HashSet<File> knownFiles;
+    private final HashSet<File> knownFiles;
 
     /**
      * Constructor
      * Memorize the folder to explore and initialize the set of known files.
-     * @param folder
+     * @param folder folder to be explored
      */
     public FileExplorer(String folder) {
         this.folder = new File(folder);
-        this.knownFiles = new HashSet<File>();
+        this.knownFiles = new HashSet<>();
     }
 
     /**
@@ -29,10 +28,11 @@ public class FileExplorer {
         // TODO: implement the method body here
         File[] files = folder.listFiles();
 
-        for (int i = 0; i < files.length; ++i) {
-            if (!knownFiles.contains(files[i])) {
-                knownFiles.add(files[i]);
-                return files[i];
+        assert files != null;
+        for (File file : files) {
+            if (!knownFiles.contains(file)) {
+                knownFiles.add(file);
+                return file;
             }
         }
 

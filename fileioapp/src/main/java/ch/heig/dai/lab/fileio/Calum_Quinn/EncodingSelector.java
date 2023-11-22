@@ -13,7 +13,7 @@ public class EncodingSelector {
      *   - .txt:     US-ASCII
      *   - .utf16be: UTF-16BE
      *   - .utf16le: UTF-16LE
-     * 
+     *
      * @param file the file to get the encoding from
      * @return the encoding of the file, or null if the extension is not recognized
      */
@@ -26,12 +26,14 @@ public class EncodingSelector {
 
         String extension = fileName.substring(dotIndex);
 
-        switch (extension) {
-            case "utf8" : return StandardCharsets.UTF_8;
-            case "txt" : return StandardCharsets.US_ASCII;
-            case "utf16be" : return StandardCharsets.UTF_16BE;
-            case "utf16le" : return StandardCharsets.UTF_16LE;
-            default : return null;
-        }
+
+        return switch (extension) {
+            case "utf8" -> StandardCharsets.UTF_8;
+            case "txt" -> StandardCharsets.US_ASCII;
+            case "utf16be" -> StandardCharsets.UTF_16BE;
+            case "utf16le" -> StandardCharsets.UTF_16LE;
+            default -> null;
+        };
+
     }
 }

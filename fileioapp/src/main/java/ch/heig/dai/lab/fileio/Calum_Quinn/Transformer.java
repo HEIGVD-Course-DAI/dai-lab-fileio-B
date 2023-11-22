@@ -59,8 +59,8 @@ public class Transformer {
         // Place first space after the space placed after the 1.
         int indexOfSpace = 3;
         int lineNumber = 1;
-        source = lineNumber++ + ". " + source.substring(0) + '\n';
-        
+        source = lineNumber++ + ". " + source + '\n';
+
         while(indexOfSpace <= source.lastIndexOf(' ')) {
             for(int i = 0; i < numWordsPerLine && indexOfSpace != -1; ++i) {
                 indexOfSpace = source.indexOf(' ',indexOfSpace + 1);
